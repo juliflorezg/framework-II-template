@@ -1,0 +1,259 @@
+{
+    "hooks": [
+        {
+            "name": "useStartValidateAccessKey",
+            "componentType": "omni-hook",
+            "fetchOptions": {
+                "url": "https://master--moradoapp.myvtex.com/api/vtexid/pub/authentication/start"
+            },
+            "headerOptions": {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            "parseResponse": {
+                "to": {
+                    "authenticationToken": "authenticationToken"
+                }
+            },
+            "exec": [
+                {
+                    "name": "useStartValidateAccessKey",
+                    "params": [
+                        {
+                            "callbackUrl": "https://master--moradoapp.myvtex.com/api/vtexid/oauth/finish",
+                            "account": "moradoapp",
+                            "scope": "moradoapp"
+                        }
+                    ]
+                }
+            ],
+            "businessLogic": {
+                "middlewares": [
+                    {
+                        "name": "useValidateAccessKey",
+                        "dependsOn": "useStartValidateAccessKey",
+                        "inheritProps": [
+                            "authenticationToken"
+                        ],
+                        "params": [
+                            {
+                                "login": "rafygonzalez089@gmail.com",
+                                "accesskey": "{accesskey}",
+                                "authenticationToken": "{authenticationToken}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "useValidateAccessKey",
+            "componentType": "omni-hook",
+            "fetchOptions": {
+                "url": "https://master--moradoapp.myvtex.com/api/vtexid/pub/authentication/accesskey/validate"
+            },
+            "headerOptions": {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            "exec": [
+                {
+                    "name": "useValidateAccessKey"
+                }
+            ]
+        },
+        {
+            "name": "useSendAccessKey",
+            "componentType": "omni-hook",
+            "fetchOptions": {
+                "url": "https://master--moradoapp.myvtex.com/api/vtexid/pub/authentication/accesskey/send"
+            },
+            "headerOptions": {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            "exec": [
+                {
+                    "name": "useSendAccessKey"
+                }
+            ]
+        },
+        {
+            "name": "useStartAuthentication",
+            "componentType": "omni-hook",
+            "fetchOptions": {
+                "url": "https://master--moradoapp.myvtex.com/api/vtexid/pub/authentication/start"
+            },
+            "headerOptions": {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            "parseResponse": {
+                "to": {
+                    "authenticationToken": "authenticationToken"
+                }
+            },
+            "exec": [
+                {
+                    "name": "useStartAuthentication",
+                    "params": [
+                        {
+                            "callbackUrl": "https://master--moradoapp.myvtex.com/api/vtexid/oauth/finish",
+                            "account": "moradoapp",
+                            "scope": "moradoapp"
+                        }
+                    ]
+                }
+            ],
+            "businessLogic": {
+                "middlewares": [
+                    {
+                        "name": "useSendAccessKey",
+                        "dependsOn": "useStartAuthentication",
+                        "inheritProps": [
+                            "authenticationToken"
+                        ],
+                        "params": [
+                            {
+                                "email": "{email}",
+                                "authenticationToken": "{authenticationToken}",
+                                "locale": "es-CO"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "useLogin",
+            "componentType": "omni-hook",
+            "fetchOptions": {
+                "query": "customerAccessTokenCreateMutation"
+            },
+            "invalidInputMessage": {
+                "message": "An email and password are required to login"
+            },
+            "parseResponse": {
+                "to": {
+                    "accessToken": "customerAccessTokenCreate.customerAccessToken.accessToken",
+                    "expiresAt": "customerAccessTokenCreate.customerAccessToken.expiresAt"
+                }
+            },
+            "exec": [
+                {
+                    "name": "useLogin",
+                    "onSuccess": [
+                        {
+                            "name": "AsyncStorage",
+                            "function": "storeData",
+                            "dependsOn": "useLogin",
+                            "inheritProps": [
+                                "accessToken"
+                            ],
+                            "params": [
+                                "authToken",
+                                "{accessToken}"
+                            ]
+                        }
+                    ],
+                    "onError": [
+                        {
+                            "name": "CommerceError",
+                            "message": "An email and password are required to login"
+                        }
+                    ]
+                }
+            ],
+            "businessLogic": {
+                "middlewares": [
+                    {
+                        "name": "useCustomer",
+                        "revalidate": true
+                    },
+                    {
+                        "name": "useCheckout",
+                        "dependsOn": "useCustomer",
+                        "params": [
+                            "email"
+                        ],
+                        "revalidate": true
+                    }
+                ]
+            }
+        },
+        {
+            "name": "useCustomer",
+            "componentType": "omni-hook",
+            "fetchOptions": {
+                "query": "getCustomerQuery",
+                "url": ""
+            },
+            "invalidInputMessage": {
+                "message": "An email and password are required to login"
+            },
+            "parseResponse": {
+                "to": {
+                    "id": "customer.id",
+                    "firstName": "customer.firstName",
+                    "lastName": "customer.lastName",
+                    "displayName": "customer.displayName",
+                    "email": "customer.email",
+                    "phone": "customer.phone",
+                    "tags": "customer.tags",
+                    "acceptsMarketing": "customer.acceptsMarketing",
+                    "createdAt": "customer.createdAt"
+                }
+            },
+            "exec": [
+                {
+                    "name": "AsyncStorage",
+                    "function": "getData",
+                    "params": [
+                        "authToken"
+                    ]
+                },
+                {
+                    "name": "useCustomer",
+                    "dependsOn": "AsyncStorage",
+                    "params": [
+                        {
+                            "customerAccessToken": "{AsyncStorage}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "useSearch",
+            "componentType": "omni-hook",
+            "fetchOptions": {
+                "query": "getAllProductsQuery"
+            },
+            "parseResponse": {
+                "to": {
+                    "products": {
+                        "pathValue": "products.edges",
+                        "parseFunction": "ProductSearch",
+                        "function": "NormalizeProduct"
+                    }
+                }
+            },
+            "invalidInputMessage": {
+                "message": "Error in Aearch"
+            },
+            "exec": [
+                {
+                    "name": "ProductSearch",
+                    "function": "GetVariables",
+                    "dependsOn": "params",
+                    "params": [
+                        "{input}"
+                    ]
+                },
+                {
+                    "name": "useSearch",
+                    "dependsOn": "ProductSearch",
+                    "params": [
+                        "{ProductSearch}"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,148 @@
+{
+  "rootType": "Stack",
+  "initialRouteName": "walkthrough",
+  "prefixes": [
+    "https://rnframework.com",
+    "rnframework://"
+  ],
+  "screens": {
+    "walkthrough": {
+      "path": "walkthrough",
+      "options": {
+        "title": "Walkthrough"
+      },
+      "type": "Component"
+    },
+    "product": {
+      "path": "product/:slug",
+      "options": {
+        "title": "Product"
+      },
+      "type": "Component"
+    },
+    "cart": {
+      "path": "cart",
+      "options": {
+        "title": "Cart"
+      },
+      "type": "Component"
+    },
+    "auth": {
+      "type": "Stack",
+      "initialRouteName": "signin",
+      "options": {
+        "title": "AuthStack"
+        
+      },
+      "path": "auth",
+      "screens": {
+        "signin": {
+          "path": "signin",
+          "options": {
+             "headerShown": false
+          },
+          "type": "Component"
+        },
+        "social-sign": {
+          "path": "social-sign",
+          "options": {
+            "title": "Iniciar con Redes Sociales"
+          },
+          "type": "Component"
+        },
+        "signin.with-email": {
+          "path": "signin/classic",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "signin.with-email-and-password": {
+          "path": "signin/classic/password",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "otp-code-validate": {
+          "path": "otp/validate",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "signup.flow_first_step": {
+          "path": "signup",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "signup.flow_second_step": {
+          "path": "signup/current_location",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "signup.flow_third_step": {
+          "path": "signup/preferences",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "signup.flow_fourth_step": {
+          "path": "signup/business_data",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "signup.flow_fifth_step": {
+          "path": "signup/business_data/source",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "signup.flow_sixth_step": {
+          "path": "signup/security",
+          "options": {
+            "headerShown": false
+          },
+          "type": "Component"
+        },
+        "update-profile": {
+          "path": "update-profile",
+          "options": {
+            "title": "Actualizar perfil"
+          },
+          "type": "Component"
+        },
+        "validate-email": {
+          "path": "validate-email",
+          "options": {
+            "title": "Validar Correo Electrónico"
+          },
+          "type": "Component"
+        }
+      }
+    },
+    "main": {
+      "type": "Tab",
+      "options": {
+        "headerShown": false
+      },
+      "screens": {
+        "home": {
+          "path": "home",
+          "options": {
+            "title": "Home"
+          },
+          "type": "Component"
+        }
+      }
+    }
+  }
+}

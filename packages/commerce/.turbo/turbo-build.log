@@ -1,0 +1,6 @@
+[33m@vercel/commerce:build[0m: cache hit, replaying output [2ma1596eba51d55a30[0m
+[33m@vercel/commerce:build: [0m$ taskr build
+[33m@vercel/commerce:build: [0m[18:06:06] Running with /Users/javiergb85/Documents/framework/rn-framework/packages/commerce/taskfile.js
+[33m@vercel/commerce:build: [0m[18:06:06] Starting build
+[33m@vercel/commerce:build: [0m[18:06:06] Compiled src files
+[33m@vercel/commerce:build: [0m[18:06:06] Finished build in 70ms
